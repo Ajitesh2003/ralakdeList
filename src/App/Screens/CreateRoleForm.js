@@ -2,6 +2,8 @@
 
 import React from 'react';
 import PermissionRow from '../Components/PermissionRow'; 
+import SelectionRows from '../Components/SelectionRows';
+import { File } from 'lucide-react';
 
 const CreateRoleForm = () => {
   // Define permissions columns for Contacts and Items sections
@@ -79,7 +81,7 @@ const CreateRoleForm = () => {
 
           {/* Customer Row */}
           <PermissionRow module="Customers" permissions={contactPermissions} />
-          <div className="flex items-start text-sm text-gray-500 pl-4 py-2 border-l border-gray-200 border-b border-gray-200">
+          <div className="flex justify-center text-sm text-gray-500 pl-4 py-2 border-l border-gray-200 border-b border-gray-200">
              <input
                 type="checkbox"
                 defaultChecked={true}
@@ -92,7 +94,7 @@ const CreateRoleForm = () => {
 
           {/* Vendor Row */}
           <PermissionRow module="Vendors" permissions={contactPermissions} />
-          <div className="flex items-start text-sm text-gray-500 pl-4 py-2 ">
+          <div className="flex justify-center text-sm text-gray-500 pl-4 py-2 ">
             <input
                 type="checkbox"
                 defaultChecked={false}
@@ -135,7 +137,7 @@ const CreateRoleForm = () => {
           {/* Add more rows here if needed */}
         </div>
 
-        {/* Contacts Permission Section */}
+        {/* Banking Permission Section */}
          <div className="border border-gray-200 rounded-md mb-8 overflow-hidden">
         <div className='bg-gray-50 py-3 px-4 border-b border-gray-200 '>
         <h2 className="text-xl font-semibold  text-left text-gray-800">Banking</h2>
@@ -158,6 +160,228 @@ const CreateRoleForm = () => {
           {/* Item Rows */}
           <PermissionRow module="Banking" permissions={itemPermissions} hasApprove={true} />
           
+          
+          {/* Add more rows here if needed */}
+        </div>
+        {/* Sales Permission Section */}
+         <div className="border border-gray-200 rounded-md mb-8 overflow-hidden">
+        <div className='bg-gray-50 py-3 px-4 border-b border-gray-200 '>
+        <h2 className="text-xl font-semibold  text-left text-gray-800">Sales</h2>
+            </div>
+          
+          {/* Header Row for Items */}
+          <div className="grid grid-cols-12  text-xs font-medium text-gray-500 uppercase py-3 px-4 border-b border-gray-200">
+            <div className="col-span-3">Particulars</div>
+            <div className="col-span-7 grid grid-cols-6 text-center">
+              <div>Full</div>
+              <div>View</div>
+              <div>Create</div>
+              <div>Edit</div>
+              <div>Delete</div>
+              <div>Approve</div>
+            </div>
+            <div className="col-span-2 text-right">Others</div>
+          </div>
+
+          {/* Item Rows */}
+          <PermissionRow module="Invoices" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Customer payments" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Quotes" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Sales Orders" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Picklist" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Package" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Shipment order" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Sales Return" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Sales Return Receive" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Credit Notes" permissions={itemPermissions} hasApprove={true} />
+          
+          
+          {/* Add more rows here if needed */}
+        </div>
+
+        {/* Purchases Permission Settings */}
+                 <div className="border border-gray-200 rounded-md mb-8 overflow-hidden">
+        <div className='bg-gray-50 py-3 px-4 border-b border-gray-200 '>
+        <h2 className="text-xl font-semibold  text-left text-gray-800">Purchases</h2>
+            </div>
+          
+          {/* Header Row for Items */}
+          <div className="grid grid-cols-12  text-xs font-medium text-gray-500 uppercase py-3 px-4 border-b border-gray-200">
+            <div className="col-span-3">Particulars</div>
+            <div className="col-span-7 grid grid-cols-6 text-center">
+              <div>Full</div>
+              <div>View</div>
+              <div>Create</div>
+              <div>Edit</div>
+              <div>Delete</div>
+              <div>Approve</div>
+            </div>
+            <div className="col-span-2 text-right">Others</div>
+          </div>
+
+          {/* Item Rows */}
+          <PermissionRow module="Bills" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Vendor Payments" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Expenses" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Purchase Orders" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Purchase Receive" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Vendor Credits" permissions={itemPermissions} hasApprove={true} />
+          
+          
+          
+          {/* Add more rows here if needed */}
+        </div>
+
+          {/* Accountant Permissions Settings */}
+                    <div className="border border-gray-200 rounded-md mb-8 overflow-hidden">
+        <div className='bg-gray-50 py-3 px-4 border-b border-gray-200 '>
+        <h2 className="text-xl font-semibold  text-left text-gray-800">Accountant</h2>
+            </div>
+          
+          {/* Header Row for Items */}
+          <div className="grid grid-cols-12  text-xs font-medium text-gray-500 uppercase py-3 px-4 border-b border-gray-200">
+            <div className="col-span-3">Particulars</div>
+            <div className="col-span-7 grid grid-cols-6 text-center">
+              <div>Full</div>
+              <div>View</div>
+              <div>Create</div>
+              <div>Edit</div>
+              <div>Delete</div>
+              <div>Approve</div>
+            </div>
+            <div className="col-span-2 text-right">Others</div>
+          </div>
+
+          {/* Item Rows */}
+          <PermissionRow module="Chart Of Accountants" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Journals" permissions={itemPermissions} hasApprove={true} />
+          <PermissionRow module="Budget" permissions={itemPermissions} hasApprove={true} />
+         
+          
+          
+          {/* Add more rows here if needed */}
+        </div>
+
+        {/* Timesheets Permission Settings */}
+      
+                <div className="border border-gray-200 rounded-md mb-8 overflow-hidden">
+        <div className='bg-gray-50 py-3 px-4 border-b border-gray-200 '>
+        <h2 className="text-xl font-semibold  text-left text-gray-800">Timesheets</h2>
+            </div>
+          
+          {/* Header Row for Items */}
+          <div className="grid grid-cols-12  text-xs font-medium text-gray-500 uppercase py-3 px-4 border-b border-gray-200">
+            <div className="col-span-3">Particulars</div>
+            <div className="col-span-7 grid grid-cols-6 text-center">
+              <div>Full</div>
+              <div>View</div>
+              <div>Create</div>
+              <div>Edit</div>
+              <div>Delete</div>
+              <div>Approve</div>
+            </div>
+            <div className="col-span-2 text-right">Others</div>
+          </div>
+
+          {/* Item Rows */}
+          <PermissionRow module="Projects" permissions={itemPermissions} hasApprove={true} />
+          
+          
+          <div className="flex justify-center text-sm text-gray-500 pl-4 py-2 border-l border-gray-200 border-b border-gray-200">
+             <input
+                type="checkbox"
+                defaultChecked={true}
+                className="form-checkbox h-4 w-4 text-blue-600 border-gray-300 self-center rounded mt-1 focus:ring-blue-500"
+            />
+            <p className="ml-2">
+              Don't allow timesheet staffs to record expenses for the associated project(s).
+            </p>
+          </div>
+          
+          {/* Add more rows here if needed */}
+        </div>
+
+        {/* Small Options Documents */}
+        
+          <div className="border border-gray-200 rounded-md mb-8 overflow-hidden">
+            {/* Header Option */}
+        <div className=' flex bg-gray-50 py-3 px-4 border-b border-gray-200 '>
+          <input
+                type="checkbox"
+                defaultChecked={false}
+                className="form-checkbox h-4 w-4 text-blue-600 border-gray-300 self-center rounded mt-1 focus:ring-blue-500"
+            />
+        <h2 className="text-xl font-semibold ml-2 text-left text-gray-800">Documents</h2>
+            </div>
+          
+         
+
+          {/* Item Rows */}
+          <SelectionRows RowName={'View Documents'} defaultChecked={false} />          
+          <SelectionRows RowName={'Upload Documents'} defaultChecked={false} />          
+          <SelectionRows RowName={'Delete Documents'} defaultChecked={false} />          
+          <SelectionRows RowName={'Manage Folder'} defaultChecked={false} />          
+         
+          
+          {/* Add more rows here if needed */}
+        </div>
+
+        {/* Vat Filling  */}
+          <div className="border border-gray-200 rounded-md mb-8 overflow-hidden">
+            {/* Header Option */}
+        <div className=' flex bg-gray-50 py-3 px-4 border-b border-gray-200 '>
+          <input
+                type="checkbox"
+                defaultChecked={false}
+                className="form-checkbox h-4 w-4 text-blue-600 border-gray-300 self-center rounded mt-1 focus:ring-blue-500"
+            />
+        <h2 className="text-xl font-semibold ml-2 text-left text-gray-800">Vat Filling</h2>
+            </div>
+          
+         
+
+          {/* Item Rows */}
+          <SelectionRows RowName={'View Agent Invitation Details'} defaultChecked={false} />          
+          <SelectionRows RowName={'Manage Agent Invitation'} defaultChecked={false} />          
+          <SelectionRows RowName={'Manage VAT Return'} defaultChecked={false} />          
+          <SelectionRows RowName={'Submit VAT Return'} defaultChecked={false} />          
+         
+          
+          {/* Add more rows here if needed */}
+        </div>
+
+        {/* Settings Options */}
+          <div className="border border-gray-200 rounded-md mb-8 overflow-hidden">
+            {/* Header Option */}
+        <div className=' flex bg-gray-50 py-3 px-4 border-b border-gray-200 '>
+          <input
+                type="checkbox"
+                defaultChecked={false}
+                className="form-checkbox h-4 w-4 text-blue-600 border-gray-300 self-center rounded mt-1 focus:ring-blue-500"
+            />
+        <h2 className="text-xl font-semibold ml-2 text-left text-gray-800">Settings</h2>
+            </div>
+          
+         
+
+          {/* Item Rows */}
+          <SelectionRows RowName={'Update Organization Profiles'} defaultChecked={false} />          
+          <SelectionRows RowName={'Users'} defaultChecked={false} />          
+          <SelectionRows RowName={'Export Data'} defaultChecked={false} />          
+          <SelectionRows RowName={'General Preferences'} defaultChecked={false} />          
+          <SelectionRows RowName={'Accountant Preferences'} defaultChecked={false} />          
+          <SelectionRows RowName={'VAT Filling Settings'} defaultChecked={false} />          
+          <SelectionRows RowName={'Taxes'} defaultChecked={false} />          
+          <SelectionRows RowName={'Provide Access to Protected Data'} defaultChecked={false} />          
+          <SelectionRows RowName={'Payment Terms'} defaultChecked={false} />          
+          <SelectionRows RowName={'Templates'} defaultChecked={false} />          
+          <SelectionRows RowName={'Email Templates'} defaultChecked={false} />          
+          <SelectionRows RowName={'Reporting Tags'} defaultChecked={false} />          
+          <SelectionRows RowName={'Manage Integration'} defaultChecked={false} />          
+          <SelectionRows RowName={'Automation'} defaultChecked={false} />          
+          <SelectionRows RowName={'Incoming Webhook'} defaultChecked={false} />          
+          <SelectionRows RowName={'Signal'} defaultChecked={false} />          
+         
           
           {/* Add more rows here if needed */}
         </div>
