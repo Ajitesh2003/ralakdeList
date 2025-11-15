@@ -1,14 +1,98 @@
 // src/CreateRoleForm.js
 
-import React from 'react';
+import React, { useState } from 'react';
 import PermissionRow from '../Components/PermissionRow'; 
 import SelectionRows from '../Components/SelectionRows';
+import ConfirmationModal from '../Components/ConfirmationModal';
+import reportGroupsData from '../Utils/ReportsData';
 import { File } from 'lucide-react';
 
 const CreateRoleForm = () => {
   // Define permissions columns for Contacts and Items sections
   const contactPermissions = ['Full', 'View', 'Create', 'Edit', 'Delete', 'Assign Owner'];
+  const permissionColumns = ['fullAccess', 'view', 'export', 'schedule', 'share'];
   const itemPermissions = ['Full', 'View', 'Create', 'Edit', 'Delete'];
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [enableFullAccess, setEnableFullAccess] = useState(false);
+  const [expandedReports, setExpandedReports] = useState({});
+  const [reportPermissions, setReportPermissions] = useState({});
+
+  const handleFullAccessChange = (e) => {
+    if (e.target.checked) {
+      setIsModalOpen(true);
+    } else {
+      setEnableFullAccess(false);
+    }
+  };
+
+  const handleConfirmFullAccess = () => {
+    setEnableFullAccess(true);
+    setIsModalOpen(false);
+  };
+
+  const handleCancelFullAccess = () => {
+    setEnableFullAccess(false);
+    setIsModalOpen(false);
+  };
+
+  const toggleReportGroup = (group) => {
+    setExpandedReports(prev => ({
+      ...prev,
+      [group]: !prev[group]
+    }));
+  };
+
+  // Handle individual checkbox change
+  const handlePermissionChange = (group, report, permission) => {
+    const key = `${group}-${report}-${permission}`;
+    setReportPermissions(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  // Check if a permission is checked
+  const isPermissionChecked = (group, report, permission) => {
+    const key = `${group}-${report}-${permission}`;
+    return reportPermissions[key] || false;
+  };
+
+  // Handle "Select All" for a specific column in a group
+  const handleSelectAll = (group, permission) => {
+    const reports = reportGroupsData[group];
+    const newPermissions = { ...reportPermissions };
+
+    // Check if all are currently selected
+    const allSelected = reports.every(report => {
+      if (permission === 'fullAccess') {
+        // For full access, check if all permissions are checked
+        return permissionColumns.every(col => {
+          const key = `${group}-${report}-${col}`;
+          return reportPermissions[key];
+        });
+      } else {
+        const key = `${group}-${report}-${permission}`;
+        return reportPermissions[key];
+      }
+    });
+
+    // Toggle: if all selected, unselect all; otherwise, select all
+    reports.forEach(report => {
+      if (permission === 'fullAccess') {
+        // Full Access should check all columns
+        permissionColumns.forEach(col => {
+          const key = `${group}-${report}-${col}`;
+          newPermissions[key] = !allSelected;
+        });
+      } else {
+        const key = `${group}-${report}-${permission}`;
+        newPermissions[key] = !allSelected;
+      }
+    });
+
+    setReportPermissions(newPermissions);
+  };
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
@@ -368,23 +452,202 @@ const CreateRoleForm = () => {
           <SelectionRows RowName={'Update Organization Profiles'} defaultChecked={false} />          
           <SelectionRows RowName={'Users'} defaultChecked={false} />          
           <SelectionRows RowName={'Export Data'} defaultChecked={false} />          
-          <SelectionRows RowName={'General Preferences'} defaultChecked={false} />          
+          <SelectionRows RowName={'General Preferences'} defaultChecked={false} iconName={'CircleQuestionMark'} />          
           <SelectionRows RowName={'Accountant Preferences'} defaultChecked={false} />          
           <SelectionRows RowName={'VAT Filling Settings'} defaultChecked={false} />          
           <SelectionRows RowName={'Taxes'} defaultChecked={false} />          
-          <SelectionRows RowName={'Provide Access to Protected Data'} defaultChecked={false} />          
+          <SelectionRows RowName={'Provide Access to Protected Data'} defaultChecked={false} iconName={'CircleQuestionMark'} />          
           <SelectionRows RowName={'Payment Terms'} defaultChecked={false} />          
           <SelectionRows RowName={'Templates'} defaultChecked={false} />          
           <SelectionRows RowName={'Email Templates'} defaultChecked={false} />          
           <SelectionRows RowName={'Reporting Tags'} defaultChecked={false} />          
           <SelectionRows RowName={'Manage Integration'} defaultChecked={false} />          
-          <SelectionRows RowName={'Automation'} defaultChecked={false} />          
-          <SelectionRows RowName={'Incoming Webhook'} defaultChecked={false} />          
-          <SelectionRows RowName={'Signal'} defaultChecked={false} />          
+          <SelectionRows RowName={'Automation'} defaultChecked={false} iconName={'CircleQuestionMark'} />          
+          <SelectionRows RowName={'Incoming Webhook'} defaultChecked={false} iconName={'CircleQuestionMark'} />          
+          <SelectionRows RowName={'Signal'} defaultChecked={false} iconName={'CircleQuestionMark'} />          
          
           
           {/* Add more rows here if needed */}
         </div>
+
+        {/* Dashboard Settings */}
+
+           <div className="border border-gray-200 rounded-md mb-8 overflow-hidden">
+            {/* Header Option */}
+        <div className=' flex bg-gray-50 py-3 px-4 border-b border-gray-200 '>
+          <input
+                type="checkbox"
+                defaultChecked={false}
+                className="form-checkbox h-4 w-4 text-blue-600 border-gray-300 self-center rounded mt-1 focus:ring-blue-500"
+            />
+        <h2 className="text-xl font-semibold ml-2 text-left text-gray-800">Dashboard Settings</h2>
+            </div>
+          
+         {/* Total Payables
+Total Receivables
+Cash Flow
+Income and Expenses
+Your Top Expense
+Projects
+Bank and Credit Cards
+Account Watchlist */}
+
+
+          {/* Item Rows */}
+          <SelectionRows RowName={'Total Payables'} defaultChecked={false} />          
+          <SelectionRows RowName={'Total Receivables'} defaultChecked={false} />          
+          <SelectionRows RowName={'Cash Flow'} defaultChecked={false} />          
+          <SelectionRows RowName={'Income and Expenses'} defaultChecked={false} />          
+          <SelectionRows RowName={'Your Top Expense'} defaultChecked={false} />          
+          <SelectionRows RowName={'Projects'} defaultChecked={false} />          
+          <SelectionRows RowName={'Bank and Credit Cards'} defaultChecked={false} />          
+          <SelectionRows RowName={'Account Watchlist'} defaultChecked={false} />          
+               
+         <div className="flex items-start p-4 bg-blue-50 rounded-sm m-2">
+            <input
+              id="accountantRole"
+              type="checkbox"
+              className="h-4 w-4 text-blue-600 border-gray-300 rounded mt-1 focus:ring-blue-500"
+            />
+            <div className="text-left ml-4 text-sm">
+              <label htmlFor="accountantRole" className="font-medium text-left text-gray-900">
+Allow Dashboard Management              </label>
+              <p className="text-black">
+Users with the following permission can create and customise dashboards              </p>
+            </div>
+          </div>
+          
+          {/* Add more rows here if needed */}
+        </div>
+
+         {/* --- Reports Permissions Section --- */}
+          <div className="border border-gray-200 rounded-md mb-8 overflow-hidden">
+    <div className='bg-gray-50  py-3 px-4 border-b border-gray-200'>
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          id="enableFullAccessReports"
+          checked={enableFullAccess}
+          onChange={handleFullAccessChange}
+          className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+        />
+        <label htmlFor="enableFullAccessReports" className="ml-2 text-xl font-semibold text-gray-700">
+          Enable full access for all reports
+        </label>
+        <span className="ml-2 inline-flex items-center justify-center w-4 h-4 bg-gray-400 text-white text-xs rounded-full 
+  cursor-help" title="Enable all report permissions">
+          i
+        </span>
+      </div>
+    </div>
+
+    {/* Enable full access checkbox */}
+    <div className="px-4 py-4 border-b border-gray-200">
+      {/* Warning Message */}
+      <div className="mt-3 flex items-start p-3 bg-orange-50 border-l-4 border-orange-400 rounded">
+        <span className="text-orange-600 font-bold mr-2">⚠</span>
+        <p className="text-sm text-gray-700">
+          When new reports are introduced, you will have to edit the role and provide access to them.
+        </p>
+      </div>
+    </div>
+
+    {/* Header Row for Reports */}
+    <div className="grid grid-cols-12 text-xs font-medium text-gray-500 uppercase py-3 px-4 border-b border-gray-200">
+      <div className="col-span-3">Report Groups</div>
+      <div className="col-span-9 grid grid-cols-5 text-center">
+        <div>Full Access</div>
+        <div>View</div>
+        <div>Export</div>
+        <div>Schedule</div>
+        <div>Share</div>
+      </div>
+    </div>
+
+    {/* Report Group Rows */}
+    {Object.keys(reportGroupsData).map((group) => (
+      <div key={group} className="border-b border-gray-100">
+        <div
+          className={`grid grid-cols-12 py-3 items-center text-sm cursor-pointer transition-colors duration-150 group 
+  ${expandedReports[group] ? 'bg-gray-50' : 'bg-white hover:bg-gray-50'}`}
+          onClick={() => toggleReportGroup(group)}
+        >
+          {/* Report Group Name with expand icon */}
+          <div className="col-span-3 font-medium text-gray-700 pl-4 flex items-center">
+            <svg
+              className={`mr-2 w-4 h-4 transform transition-transform duration-200 ${expandedReports[group] ? 'rotate-90' : 
+  ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+            {group}
+          </div>
+
+          {/* Show "Select All" links when expanded, placeholder text when collapsed */}
+          {expandedReports[group] ? (
+            <div className="col-span-9 grid grid-cols-5 text-center text-xs">
+              {permissionColumns.map((permission) => (
+                <button
+                  key={permission}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectAll(group, permission);
+                  }}
+                  className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                >
+                  Select All
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="col-span-9 text-center text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity 
+  duration-150">
+              Click to configure access
+            </div>
+          )}
+        </div>
+
+        {/* Expanded content */}
+        {expandedReports[group] && (
+          <div className="bg-white border-t border-gray-200">
+            {/* Individual Report Rows */}
+            {reportGroupsData[group].map((report) => (
+              <div
+                key={report}
+                className="grid grid-cols-12 py-2 px-4 text-sm border-b border-gray-100 hover:bg-gray-50"
+              >
+                <div className="col-span-3 text-gray-700 pl-6">{report}</div>
+                <div className="col-span-9 grid grid-cols-5">
+                  {permissionColumns.map((permission) => (
+                    <div key={permission} className="flex justify-center items-center">
+                      <input
+                        type="checkbox"
+                        checked={isPermissionChecked(group, report, permission)}
+                        onChange={() => handlePermissionChange(group, report, permission)}
+                        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+        {/* Confirmation Modal */} 
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          onClose={handleCancelFullAccess}
+          onConfirm={handleConfirmFullAccess}
+          title="Enable Full Access for All Reports"
+          message="Are you sure you want to enable full access for all reports? This will grant all permissions to every report group."
+        />
 
 
         {/* Action Buttons (Not visible in image, but typical for a form) */}
